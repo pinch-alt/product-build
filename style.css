@@ -11,51 +11,155 @@
     --button-bg-color: #4CAF50;
     --button-hover-bg-color: #45a049;
     --button-glow-color: rgba(76, 175, 80, 0.7);
+    --history-bg: rgba(255, 255, 255, 0.05);
 }
 
 body {
     background-color: var(--background-color);
     color: var(--text-color);
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
     margin: 0;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 2px, transparent 2px);
-    background-size: 50px 50px;
+    padding: 2rem;
+    box-sizing: border-box;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px), 
+        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+    background-size: 20px 20px, 100px 100px, 100px 100px;
 }
 
 .container {
+    max-width: 800px;
+    width: 100%;
     text-align: center;
 }
 
 h1 {
     font-size: 3rem;
     margin-bottom: 2rem;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #fff, #888);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-display {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    margin-bottom: 3rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .lotto-numbers {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
 }
 
 .generate-btn {
     background-color: var(--button-bg-color);
     color: white;
-    padding: 1rem 2rem;
+    padding: 1.2rem 3rem;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     font-size: 1.2rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 10px var(--button-glow-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px var(--button-glow-color);
 }
 
 .generate-btn:hover {
     background-color: var(--button-hover-bg-color);
-    box-shadow: 0 0 20px var(--button-glow-color), 0 0 30px var(--button-glow-color);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--button-glow-color);
+}
+
+.generate-btn:active {
+    transform: translateY(0);
+}
+
+.history-container {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+.history-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.history-item {
+    background: var(--history-bg);
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slideIn 0.3s ease-out;
+}
+
+.history-numbers {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.history-ball {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    background: #444;
+}
+
+.history-time {
+    font-size: 0.8rem;
+    opacity: 0.5;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .lotto-numbers {
+        gap: 0.5rem;
+    }
+    h1 {
+        font-size: 2rem;
+    }
 }

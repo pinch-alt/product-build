@@ -10,8 +10,17 @@
 <body>
     <div class="container">
         <h1>Lotto Number Generator</h1>
-        <div id="lotto-numbers" class="lotto-numbers"></div>
-        <button id="generate-btn" class="generate-btn">Generate Numbers</button>
+        <div class="main-display">
+            <div id="lotto-numbers" class="lotto-numbers"></div>
+            <button id="generate-btn" class="generate-btn">Generate Numbers</button>
+        </div>
+        
+        <div class="history-container">
+            <h2>Generation History</h2>
+            <div id="history-list" class="history-list">
+                <!-- History items will be added here -->
+            </div>
+        </div>
     </div>
     <script src="main.js"></script>
 </body>
