@@ -2,47 +2,57 @@
 class LottoBall extends HTMLElement {
     constructor() {
         super();
-        const shadow = this.attachShadow({ mode: 'open' });
-        const number = this.getAttribute('number');
-        const color = this.getAttribute('color');
+        this.attachShadow({ mode: 'open' });
+    }
 
-        const ball = document.createElement('div');
-        ball.classList.add('ball');
-        ball.style.setProperty('--ball-color', color);
-        ball.textContent = number;
+    connectedCallback() {
+        this.render();
+    }
 
-        const style = document.createElement('style');
-        style.textContent = `
-            .ball {
-                width: 60px;
-                height: 60px;
-                border-radius: 50%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 1.5rem;
-                font-weight: 800;
-                color: white;
-                background: radial-gradient(circle at 20px 20px, var(--ball-color), #333);
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2);
-                animation: appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-                border: 2px solid rgba(255, 255, 255, 0.1);
-            }
+    static get observedAttributes() {
+        return ['number', 'color'];
+    }
 
-            @keyframes appear {
-                from {
-                    transform: scale(0) rotate(-180deg);
-                    opacity: 0;
+    attributeChangedCallback() {
+        this.render();
+    }
+
+    render() {
+        const number = this.getAttribute('number') || '';
+        const color = this.getAttribute('color') || '#444';
+
+        this.shadowRoot.innerHTML = `
+            <style>
+                .ball {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 1.5rem;
+                    font-weight: 800;
+                    color: white;
+                    background: radial-gradient(circle at 20px 20px, ${color}, #333);
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+                    animation: appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+                    border: 2px solid rgba(255, 255, 255, 0.1);
+                    user-select: none;
                 }
-                to {
-                    transform: scale(1) rotate(0);
-                    opacity: 1;
+
+                @keyframes appear {
+                    from {
+                        transform: scale(0) rotate(-180deg);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: scale(1) rotate(0);
+                        opacity: 1;
+                    }
                 }
-            }
+            </style>
+            <div class="ball">${number}</div>
         `;
-
-        shadow.appendChild(style);
-        shadow.appendChild(ball);
     }
 }
 
