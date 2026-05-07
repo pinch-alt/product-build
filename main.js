@@ -21,10 +21,10 @@ class LottoBall extends HTMLElement {
                 justify-content: center;
                 align-items: center;
                 font-size: 1.5rem;
-                font-weight: bold;
+                font-weight: 800;
                 color: white;
                 background: radial-gradient(circle at 20px 20px, var(--ball-color), #333);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 -2px 4px rgba(0, 0, 0, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2);
                 animation: appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
                 border: 2px solid rgba(255, 255, 255, 0.1);
             }
@@ -49,6 +49,7 @@ class LottoBall extends HTMLElement {
 customElements.define('lotto-ball', LottoBall);
 
 const generateBtn = document.getElementById('generate-btn');
+const themeToggle = document.getElementById('theme-toggle');
 const lottoNumbersContainer = document.getElementById('lotto-numbers');
 const historyList = document.getElementById('history-list');
 
@@ -63,8 +64,21 @@ const colors = [
 
 let history = [];
 
+// Theme Logic
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+    }
+}
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
+
 function generateNumbers() {
-    // Collect the current numbers before clearing if they exist
     const currentBalls = lottoNumbersContainer.querySelectorAll('lotto-ball');
     if (currentBalls.length > 0) {
         const currentNumbers = Array.from(currentBalls).map(ball => ball.getAttribute('number'));
@@ -80,7 +94,6 @@ function generateNumbers() {
     const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
 
     sortedNumbers.forEach((number, index) => {
-        // Stagger the ball appearance
         setTimeout(() => {
             const lottoBall = document.createElement('lotto-ball');
             lottoBall.setAttribute('number', number);
@@ -91,12 +104,9 @@ function generateNumbers() {
 }
 
 function addToHistory(numbers) {
-    const time = new Date().toLocaleTimeString();
+    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     history.unshift({ numbers, time });
-    
-    // Keep only last 10 entries
     if (history.length > 10) history.pop();
-    
     renderHistory();
 }
 
@@ -128,5 +138,6 @@ function renderHistory() {
 
 generateBtn.addEventListener('click', generateNumbers);
 
-// Initial numbers
+// Initial Setup
+initTheme();
 generateNumbers();

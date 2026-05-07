@@ -1,23 +1,35 @@
 
 :root {
+    /* Dark Mode (Default) */
     --background-color: #121212;
     --text-color: #ffffff;
-    --ball-color-1: #ff8c00;
-    --ball-color-2: #ff2d55;
-    --ball-color-3: #4caf50;
-    --ball-color-4: #2196f3;
-    --ball-color-5: #9c27b0;
-    --ball-color-6: #ffeb3b;
+    --main-display-bg: rgba(255, 255, 255, 0.03);
+    --history-bg: rgba(255, 255, 255, 0.05);
+    --border-color: rgba(255, 255, 255, 0.1);
     --button-bg-color: #4CAF50;
     --button-hover-bg-color: #45a049;
     --button-glow-color: rgba(76, 175, 80, 0.7);
-    --history-bg: rgba(255, 255, 255, 0.05);
+    --heading-gradient: linear-gradient(to right, #fff, #888);
+    --ball-shadow: rgba(0, 0, 0, 0.6);
+}
+
+body.light-mode {
+    --background-color: #f5f5f7;
+    --text-color: #1d1d1f;
+    --main-display-bg: #ffffff;
+    --history-bg: #ffffff;
+    --border-color: #d2d2d7;
+    --button-bg-color: #0071e3;
+    --button-hover-bg-color: #0077ed;
+    --button-glow-color: rgba(0, 113, 227, 0.3);
+    --heading-gradient: linear-gradient(to right, #1d1d1f, #86868b);
+    --ball-shadow: rgba(0, 0, 0, 0.2);
 }
 
 body {
     background-color: var(--background-color);
     color: var(--text-color);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -25,11 +37,10 @@ body {
     margin: 0;
     padding: 2rem;
     box-sizing: border-box;
+    transition: background-color 0.5s ease, color 0.5s ease;
     background-image: 
-        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px), 
-        linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
-    background-size: 20px 20px, 100px 100px, 100px 100px;
+        radial-gradient(circle at 50% 50%, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
 }
 
 .container {
@@ -38,31 +49,58 @@ body {
     text-align: center;
 }
 
-h1 {
-    font-size: 3rem;
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    background: linear-gradient(to right, #fff, #888);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: var(--heading-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
+.theme-toggle {
+    background: var(--main-display-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+}
+
 .main-display {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--main-display-bg);
     padding: 3rem;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
     margin-bottom: 3rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.5s ease;
 }
 
 .lotto-numbers {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    gap: 1.2rem;
     margin-bottom: 2.5rem;
     flex-wrap: wrap;
 }
@@ -70,22 +108,21 @@ h1 {
 .generate-btn {
     background-color: var(--button-bg-color);
     color: white;
-    padding: 1.2rem 3rem;
+    padding: 1rem 3rem;
     border: none;
-    border-radius: 50px;
-    font-size: 1.2rem;
-    font-weight: bold;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 0 15px var(--button-glow-color);
+    letter-spacing: -0.2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px var(--button-glow-color);
 }
 
 .generate-btn:hover {
     background-color: var(--button-hover-bg-color);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px var(--button-glow-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--button-glow-color);
 }
 
 .generate-btn:active {
@@ -98,68 +135,73 @@ h1 {
 }
 
 .history-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    opacity: 0.8;
 }
 
 .history-list {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 1rem;
 }
 
 .history-item {
     background: var(--history-bg);
-    padding: 1rem;
-    border-radius: 10px;
+    padding: 1.2rem;
+    border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    animation: slideIn 0.3s ease-out;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-color);
+    transition: background-color 0.5s ease;
 }
 
 .history-numbers {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.6rem;
 }
 
 .history-ball {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 0.8rem;
-    font-weight: bold;
+    font-size: 0.85rem;
+    font-weight: 700;
     color: white;
     background: #444;
 }
 
 .history-time {
     font-size: 0.8rem;
+    font-weight: 500;
     opacity: 0.5;
 }
 
 @keyframes slideIn {
     from {
-        transform: translateX(-20px);
+        transform: translateY(10px);
         opacity: 0;
     }
     to {
-        transform: translateX(0);
+        transform: translateY(0);
         opacity: 1;
     }
 }
 
 @media (max-width: 600px) {
     .lotto-numbers {
-        gap: 0.5rem;
+        gap: 0.6rem;
     }
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+    .main-display {
+        padding: 2rem 1rem;
     }
 }
